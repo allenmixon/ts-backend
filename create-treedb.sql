@@ -12,16 +12,26 @@ CREATE TABLE inventory.callready(
    CUSTOMER_PO VARCHAR(255),
    GLC_BOL VARCHAR(255),
    GLC_BOL2 VARCHAR(255),
+   CREATION_TIMESTAMP timestamp WITH TIME ZONE
+    DEFAULT current_timestamp
 );
 
 CREATE TABLE inventory.pieces(
+   NUMID SERIAL PRIMARY KEY NOT NULL,
    ROW INT NOT NULL,
    CALL_ID INT NOT NULL,
-   THICKNESS NUMERIC,
-   WIDTH NUMERIC,
-   LENGTH NUMERIC,
-   PRIMARY KEY(contact_id),
-   CONSTRAINT fk_customer
+   THICKNESS NUMERIC(8,2),
+   WIDTH NUMERIC(8,2),
+   LENGTH NUMERIC(8,2),
+   CONSTRAINT fk_call_id
       FOREIGN KEY(CALL_ID) 
-         REFERENCES callready(CALL_ID)
+         REFERENCES inventory.callready(CALL_ID)
 );
+
+INSERT INTO inventory.callready (CUSTOMER_NAME, SHIPPING_ADDRESS) VALUES ('Troy Homes', 'Lol Main 47');
+INSERT INTO inventory.callready (CUSTOMER_NAME, SHIPPING_ADDRESS) VALUES ('Berkshire Hathaway', '888 Buttguard Ln');
+
+INSERT INTO inventory.pieces (ROW, CALL_ID, THICKNESS, WIDTH, LENGTH) VALUES (1, 1, 2.2, 3.3, 4.4);
+INSERT INTO inventory.pieces (ROW, CALL_ID, THICKNESS, WIDTH, LENGTH) VALUES (2, 1, 6.2, 6.3, 6.4);
+
+INSERT INTO inventory.pieces (ROW, CALL_ID, THICKNESS, WIDTH, LENGTH) VALUES (1, 2, 2.2, 3.3, 4.4);
