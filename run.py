@@ -7,5 +7,5 @@ app = Flask(__name__)
 def call_ready():
 	return jsonify(success=True)
 
-if __name__ == "__main__":
-	app.run(debug=True)
+if __name__ == '__main__':
+    app.run(host='treeserver', port=5001)
