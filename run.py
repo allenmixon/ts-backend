@@ -1,4 +1,4 @@
-#test10
+#test11
 
 from flask import Flask, jsonify
 
@@ -7,7 +7,7 @@ app = Flask(__name__)
 #Call Ready Endpoint
 @app.route('/call-ready', methods=['POST'])
 def call_ready():
-	return jsonify(success='Verified')
+	return jsonify(success='Verified Yessir')
 
 if __name__ == '__main__':
     app.run(host='treeserver', port=5001)
