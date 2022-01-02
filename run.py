@@ -9,7 +9,7 @@ CORS(app)
 #Call Ready Endpoint
 @app.route('/call-ready', methods=['POST'])
 def call_ready():
-	return jsonify(success='Awesome Yessir')
+	return "Awesome yessirrr"
 
 if __name__ == '__main__':
     app.run(host='treeserver', port=5001)
