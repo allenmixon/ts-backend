@@ -1,4 +1,40 @@
-CREATE DATABASE treedb;
+--CREATE DATABASE treedb;
+
+--Run in already created treedb
+
+CREATE SCHEMA IF NOT EXISTS users;
+
+CREATE EXTENSION pgcrypto;
+
+CREATE TABLE users.credentials (
+  id SERIAL PRIMARY KEY,
+  username TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL
+);
+
+--INSERT INTO users (email, password) VALUES ('johndoe', crypt('johnspassword', gen_salt('bf')));
+
+/*
+   SELECT id 
+     FROM users
+    WHERE email = 'johndoe' 
+      AND password = crypt('johnspassword', password);
+
+    id
+   ----
+     1
+   (1 row)
+
+
+   SELECT id 
+     FROM users
+    WHERE email = 'johndoe' 
+      AND password = crypt('wrongpassword', password);
+
+    id
+   ----
+   (0 rows)
+*/
 
 CREATE SCHEMA IF NOT EXISTS inventory;
 
@@ -16,6 +52,9 @@ CREATE TABLE inventory.callready(
     DEFAULT current_timestamp
 );
 
+--INSERT INTO inventory.callready (CUSTOMER_NAME, SHIPPING_ADDRESS) VALUES ('Troy Homes', 'Lol Main 47');
+--INSERT INTO inventory.callready (CUSTOMER_NAME, SHIPPING_ADDRESS) VALUES ('Berkshire Hathaway', '888 Buttguard Ln');
+
 CREATE TABLE inventory.pieces(
    NUMID SERIAL PRIMARY KEY NOT NULL,
    ROW INT NOT NULL,
@@ -28,9 +67,6 @@ CREATE TABLE inventory.pieces(
          REFERENCES inventory.callready(CALL_ID)
 );
 
-INSERT INTO inventory.callready (CUSTOMER_NAME, SHIPPING_ADDRESS) VALUES ('Troy Homes', 'Lol Main 47');
-INSERT INTO inventory.callready (CUSTOMER_NAME, SHIPPING_ADDRESS) VALUES ('Berkshire Hathaway', '888 Buttguard Ln');
-
-INSERT INTO inventory.pieces (ROW, CALL_ID, THICKNESS, WIDTH, LENGTH) VALUES (1, 1, 2.2, 3.3, 4.4);
-INSERT INTO inventory.pieces (ROW, CALL_ID, THICKNESS, WIDTH, LENGTH) VALUES (2, 1, 6.2, 6.3, 6.4);
-INSERT INTO inventory.pieces (ROW, CALL_ID, THICKNESS, WIDTH, LENGTH) VALUES (1, 2, 2.2, 3.3, 4.4);
+--INSERT INTO inventory.pieces (ROW, CALL_ID, THICKNESS, WIDTH, LENGTH) VALUES (1, 1, 2.2, 3.3, 4.4);
+--INSERT INTO inventory.pieces (ROW, CALL_ID, THICKNESS, WIDTH, LENGTH) VALUES (2, 1, 6.2, 6.3, 6.4);
+--INSERT INTO inventory.pieces (ROW, CALL_ID, THICKNESS, WIDTH, LENGTH) VALUES (1, 2, 2.2, 3.3, 4.4);
