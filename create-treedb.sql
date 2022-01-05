@@ -2,9 +2,9 @@
 
 --Run in already created treedb
 
-CREATE SCHEMA IF NOT EXISTS users;
-
 CREATE EXTENSION pgcrypto;
+
+CREATE SCHEMA IF NOT EXISTS users;
 
 CREATE TABLE users.credentials (
   id SERIAL PRIMARY KEY,
@@ -12,13 +12,13 @@ CREATE TABLE users.credentials (
   password TEXT NOT NULL
 );
 
---INSERT INTO users (email, password) VALUES ('johndoe', crypt('johnspassword', gen_salt('bf')));
+--INSERT INTO users.credentials (username, password) VALUES ('johndoe', crypt('buckslayer', gen_salt('bf')));
 
 /*
    SELECT id 
-     FROM users
-    WHERE email = 'johndoe' 
-      AND password = crypt('johnspassword', password);
+     FROM users.crendentials
+    WHERE username = 'johndoe' 
+      AND password = crypt('buckslayer', password);
 
     id
    ----
@@ -29,7 +29,7 @@ CREATE TABLE users.credentials (
    SELECT id 
      FROM users
     WHERE email = 'johndoe' 
-      AND password = crypt('wrongpassword', password);
+      AND password = crypt('buckslayer', password);
 
     id
    ----
