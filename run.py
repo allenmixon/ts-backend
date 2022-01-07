@@ -36,7 +36,8 @@ def login():
 	
 	if password == 'starchild':
 		token = jwt.encode({'user' : user, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=1)}, app.config['SECRET_KEY'])
-		response = jsonify({'token' : token.decode('UTF-8')})
+		#response = jsonify({'token' : token.decode('UTF-8')})
+		response = jsonify({'token' : token})
 
 		return response
 
