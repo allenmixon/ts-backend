@@ -22,7 +22,7 @@ def token_required(f):
 			}), 403
 
 		try:
-			data = jwt.decode(token, app.config['SECRET_KEY'])
+			data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
 		except:
 			return jsonify({
 				'message' : 'Token is invalid'
@@ -39,8 +39,7 @@ def login():
 	password = request.form.get('pass')
 	
 	if password == 'starchild':
-		token = jwt.encode({'user' : user, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=1)}, app.config['SECRET_KEY'])
-		#response = jsonify({'token' : token.decode('UTF-8')})
+		token = jwt.encode({'user' : user, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(seconds=30)}, app.config['SECRET_KEY'], algorithm="HS256")
 
 		return jsonify({
 			'login' : 'valid',
@@ -51,6 +50,12 @@ def login():
 		'login' : 'invalid'
 	})
 
+#For testing
+@app.route('/protected')
+@token_required
+def protected():
+	return '/protected - Valid login'
+
 #Call Ready Endpoint
 @app.route('/call-ready', methods=['POST'])
 @token_required
@@ -60,4 +65,5 @@ def call_ready():
 		})
 
 if __name__ == '__main__':
-    app.run(host='treeserver', port=5001)
+	app.run(host='localhost', port=5000)
+    # app.run(host='treeserver', port=5001)
