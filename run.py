@@ -43,7 +43,7 @@ def login():
 		#response = jsonify({'token' : token.decode('UTF-8')})
 
 		return jsonify({
-			'login' : 'valid'
+			'login' : 'valid',
 			'token' : token
 		})
 
