@@ -35,8 +35,10 @@ def token_required(f):
 #Login endpoint
 @app.route('/login', methods=['POST'])
 def login():
-	user = request.form.get('user')
-	password = request.form.get('pass')
+
+	data = request.get_json()
+	user = data['user']
+	password = data['pass']
 	
 	if password == 'starchild':
 		token = jwt.encode({'user' : user, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(seconds=30)}, app.config['SECRET_KEY'], algorithm="HS256")
