@@ -41,7 +41,7 @@ def login():
 	password = data['pass']
 	
 	if password == 'starchild':
-		token = jwt.encode({'user' : user, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(seconds=30)}, app.config['SECRET_KEY'], algorithm="HS256")
+		token = jwt.encode({'user' : user, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=15)}, app.config['SECRET_KEY'], algorithm="HS256")
 
 		return jsonify({
 			'login' : 'valid',
@@ -63,9 +63,9 @@ def protected():
 @token_required
 def call_ready():
 	return jsonify({
-			'status' : 'submitted'
+			'status' : 'token validated'
 		})
 
 if __name__ == '__main__':
-	# app.run(host='localhost', port=5000)
-     app.run(host='treeserver', port=5001)
+	#app.run(host='localhost', port=5000)
+    app.run(host='treeserver', port=5001)
