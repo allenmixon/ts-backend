@@ -14,7 +14,8 @@ app.config['SECRET_KEY'] = 'mykey'
 def token_required(f):
 	@wraps(f)
 	def decorated(*args, **kwargs):
-		token = request.body.get('token')
+		data = request.get_json()
+		token = jsonify(data['body'])['token']
 
 		if not token:
 			return jsonify({
