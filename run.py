@@ -1,7 +1,6 @@
 import psycopg2
 import jwt
 import datetime
-import json
 
 from flask import Flask, jsonify, request, redirect, url_for, Response
 from flask_cors import CORS
@@ -16,7 +15,7 @@ def token_required(f):
 	@wraps(f)
 	def decorated(*args, **kwargs):
 		data = request.get_json()
-		token = json.loads(data['body'])['token']
+		token = data['token']
 
 		if not token:
 			return jsonify({
@@ -69,5 +68,5 @@ def call_ready():
 		})
 
 if __name__ == '__main__':
-	#app.run(host='localhost', port=5000)
-    app.run(host='treeserver', port=5001)
+	app.run(host='localhost', port=5000)
+    #app.run(host='treeserver', port=5001)
