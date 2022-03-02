@@ -1,10 +1,10 @@
-import psycopg2
 import jwt
 import datetime
 
 from flask import Flask, jsonify, request, redirect, url_for, Response
 from flask_cors import CORS
 from functools import wraps
+from queries import validate_user
 
 app = Flask(__name__)
 CORS(app)
@@ -41,8 +41,13 @@ def login():
 	user = data['user']
 	password = data['pass']
 	
-	if password == 'starchild':
-		token = jwt.encode({'user' : user, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=15)}, app.config['SECRET_KEY'], algorithm="HS256")
+	if validate_user(user, password):
+		token = jwt.encode({
+				'user' : user, 
+				'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=15)
+			}, 
+			app.config['SECRET_KEY'], 
+			algorithm="HS256")
 
 		return jsonify({
 			'login' : 'valid',
@@ -68,5 +73,5 @@ def call_ready():
 		})
 
 if __name__ == '__main__':
-	#app.run(host='localhost', port=5000)
-    app.run(host='treeserver', port=5001)
+	app.run(host='localhost', port=5000)
+    #app.run(host='treeserver', port=5001)
