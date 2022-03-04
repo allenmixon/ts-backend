@@ -13,11 +13,13 @@ PG_DATABASE =  os.getenv('PG_DATABASE')
 
 def db_connect():
 	try:
-		connection = psycopg2.connect(user=PG_USER,
+		connection = psycopg2.connect(
+			user=PG_USER,
 			password=PG_PASSWORD,
 			host=PG_HOST,
 			port=PG_PORT,
-			database=PG_DATABASE)
+			database=PG_DATABASE
+		)
 		
 		cursor = connection.cursor()
 
@@ -26,13 +28,18 @@ def db_connect():
 	except (Exception, psycopg2.Error) as error :
 		print("Failed to connect, error")
 
+def db_close(connection, cursor):
+	try:
+		cursor.close()
+		connection.close()
+
+	except (Exception, psycopg2.Error) as error :
+		print("Failed to close connection, error")
 
 def validate_user(user, password, connection):
+	connection, cursor = db_connect()
+
 	if password == "starchild":
 		return True
 	else:
 		return False
-
-db_connect()
-
-
