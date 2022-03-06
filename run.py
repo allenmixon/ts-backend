@@ -58,12 +58,6 @@ def login():
 		'login' : 'invalid'
 	})
 
-#For testing
-@app.route('/protected')
-@token_required
-def protected():
-	return '/protected - Valid login'
-
 #Call Ready Endpoint
 @app.route('/call-ready', methods=['POST'])
 @token_required
@@ -73,5 +67,5 @@ def call_ready():
 		})
 
 if __name__ == '__main__':
-	app.run(host='localhost', port=5000)
-    #app.run(host='treeserver', port=5001)
+	#app.run(host='localhost', port=5000)
+    app.run(host='treeserver', port=5001)

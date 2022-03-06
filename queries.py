@@ -36,10 +36,22 @@ def db_close(connection, cursor):
 	except (Exception, psycopg2.Error) as error :
 		print("Failed to close connection, error")
 
-def validate_user(user, password, connection):
+def validate_user(user, password):
 	connection, cursor = db_connect()
+	params = (user, password)
 
-	if password == "starchild":
+	query = '''
+	 SELECT id 
+     FROM users.credentials
+     WHERE username = %s
+     AND password = crypt(%s, password);
+    '''
+
+	cursor.execute(query, params)
+	count = cursor.rowcount
+	db_close(connection, cursor)
+
+	if count >= 1:
 		return True
 	else:
 		return False
