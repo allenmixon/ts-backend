@@ -1,39 +1,27 @@
+import os
 import jwt
 import datetime
 
 from flask import Flask, jsonify, request, redirect, url_for, Response
 from flask_cors import CORS
-from functools import wraps
-from queries import validate_user
+
+from lib.queries import validate_user
+from lib.helpers import token_required
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-app.config['SECRET_KEY'] = 'mykey'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
-def token_required(f):
-	@wraps(f)
-	def decorated(*args, **kwargs):
-		data = request.get_json()
-		token = data['token']
+@app.route('/')
+def index():
+    return 'Hello World!'
 
-		if not token:
-			return jsonify({
-				'message' : 'Token is missing'
-			}), 403
-
-		try:
-			data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
-		except:
-			return jsonify({
-				'message' : 'Token is invalid'
-			}), 403
-
-		return f(*args, **kwargs)
-
-	return decorated
-
-#Login endpoint
+#Login endpointfrom lib.helpers import token_required
 @app.route('/login', methods=['POST'])
 def login():
 
@@ -51,7 +39,7 @@ def login():
 
 		return jsonify({
 			'login' : 'valid',
-			'token' : token
+			'token' : token.decode("utf-8")
 		})
 
 	return jsonify({
@@ -67,5 +55,5 @@ def call_ready():
 		})
 
 if __name__ == '__main__':
-	##app.run(host='localhost', port=5000)
-    app.run(host='treeserver', port=5001)
+	app.run(host='0.0.0.0', port=5000)
+    #app.run(host='treeserver', port=5001)

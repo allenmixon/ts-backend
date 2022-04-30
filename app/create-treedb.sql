@@ -1,12 +1,11 @@
---CREATE DATABASE treedb;
+-- CREATE DATABASE treedb;
+-- psql <role> -h 127.0.0.1 -d treedb -f create-treedb.sql
 
---Run in already created treedb
-
-CREATE EXTENSION pgcrypto;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE SCHEMA IF NOT EXISTS users;
 
-CREATE TABLE users.credentials (
+CREATE TABLE IF NOT EXISTS users.credentials (
   id SERIAL PRIMARY KEY,
   username TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL
@@ -38,7 +37,7 @@ CREATE TABLE users.credentials (
 
 CREATE SCHEMA IF NOT EXISTS inventory;
 
-CREATE TABLE inventory.callready(
+CREATE TABLE IF NOT EXISTS inventory.callready(
    CALL_ID SERIAL PRIMARY KEY NOT NULL,
    CUSTOMER_NAME VARCHAR(255) NOT NULL,
    SHIPPING_ADDRESS VARCHAR(255),
@@ -55,7 +54,7 @@ CREATE TABLE inventory.callready(
 --INSERT INTO inventory.callready (CUSTOMER_NAME, SHIPPING_ADDRESS) VALUES ('Troy Homes', 'Lol Main 47');
 --INSERT INTO inventory.callready (CUSTOMER_NAME, SHIPPING_ADDRESS) VALUES ('Berkshire Hathaway', '888 Buttguard Ln');
 
-CREATE TABLE inventory.pieces(
+CREATE TABLE IF NOT EXISTS inventory.pieces(
    NUMID SERIAL PRIMARY KEY NOT NULL,
    ROW INT NOT NULL,
    CALL_ID INT NOT NULL,
