@@ -5,6 +5,6 @@ WORKDIR /ts-backend/app
 
 RUN pip3 install --upgrade pip && pip3 install -r requirements.txt
 
-EXPOSE 5000 5342
+EXPOSE 5000
 
-CMD [ "python3", "run.py"]
+CMD ./run.sh

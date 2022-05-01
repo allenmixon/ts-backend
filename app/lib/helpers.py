@@ -1,9 +1,8 @@
-import os
 import jwt
 
 from functools import wraps
 from flask import request, jsonify
-
+from os import getenv
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -20,7 +19,7 @@ def token_required(f):
 			}), 403
 
 		try:
-			data = jwt.decode(token, os.getenv('SECRET_KEY'), algorithms=["HS256"])
+			data = jwt.decode(token, getenv('SECRET_KEY'), algorithms=["HS256"])
 		except:
 			return jsonify({
 				'message' : 'Token is invalid'
